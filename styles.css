@@ -1,0 +1,54 @@
+.game-bar {
+	padding: 0;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    position: absolute;
+    background: lightblue;
+    border:1px solid grey;    
+    top:0px;
+    left:0px;
+    right:0px;
+    height:25px;
+}
+
+.game-board {
+	padding: 0;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    position: absolute;
+    background: grey;
+    border:5px solid red;    
+    top:28px;
+    left:0px;
+    right:0px;
+    bottom:0px;
+}
+
+.game-piece {
+	padding: 0;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    position: absolute;
+    background: white;
+    border:1px solid black;    
+    text-align:center;
+    display:block;
+    vertical-align:middle;
+}
+
+.empty_piece {
+	padding: 0;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    position: absolute;
+    background: grey;
+    border:1px solid grey;    
+}
