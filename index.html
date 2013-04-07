@@ -14,6 +14,7 @@
         <input id="borad-height" type="text" value="4"/>
         <input id="borad-max" type="text" value="15"/>
         <input id="game-start" type="button" value="START"/>
+        <span>Inspired by Nandita Das, powered by Bikram Chatterjee</span>
     </div>
     <div id="main-body" class="game-board"></div>
     <script language='javascript' src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -26,6 +27,12 @@
                 .resize(function(e) {
                     adjust_pieces();
                 });
+
+            $('#borad-width').button();
+            $('#borad-height').button();
+            $('#borad-max').button();
+            $('#game-start').button();
+            $('#title-bar').buttonset();
 
             $('#game-start').click(function(e) {
                 build_game();

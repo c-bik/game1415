@@ -36,6 +36,7 @@ function build_game()
                 dom: (count > 0
                      ? $('<div>')
                         .addClass('game-piece')
+                        .addClass(count%2 == 0 ? 'game_piece_even' : 'game_piece_odd')
                         .text(count)
                      : $('<div>')
                         .addClass('empty_piece')
@@ -169,11 +170,20 @@ function render() {
             if(game[i][j].val < 0)
                 game[i][j].dom
                     .removeClass('game-piece')
-                    .addClass('empty_piece')
-            else
+                    .addClass('empty_piece');
+            else {
                 game[i][j].dom
                     .removeClass('empty_piece')
-                    .addClass('game-piece')
+                    .addClass('game-piece');
+                if(game[i][j].val % 2 == 0)
+                    game[i][j].dom
+                        .removeClass('game_piece_odd')
+                        .addClass('game_piece_even');
+                else
+                    game[i][j].dom
+                        .removeClass('game_piece_even')
+                        .addClass('game_piece_odd');
+            }
         }
     }
 }

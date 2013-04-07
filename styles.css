@@ -28,6 +28,14 @@
     bottom:0px;
 }
 
+.game_piece_odd {
+    background: cyan;
+}
+
+.game_piece_even {
+    background: yellow;
+}
+
 .game-piece {
 	padding: 0;
     border-bottom-right-radius: 10px;
@@ -35,11 +43,12 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     position: absolute;
-    background: white;
     border:1px solid black;    
     text-align:center;
     display:block;
     vertical-align:middle;
+    font-family:"Times New Roman", Times, serif;
+    font-size:40px;
 }
 
 .empty_piece {
