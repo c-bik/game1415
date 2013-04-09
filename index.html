@@ -5,18 +5,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>14-15 Puzzle</title>
     <link rel="stylesheet" href="styles.css" type="text/css"/>
+
+    <script language='javascript' src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script language='javascript' src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
+    <script language='javascript' src="game.js"></script>
 </head>
 
-<body>   
-    <div id="main-body" class="game-board"></div>
-    <script language='javascript' src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script language='javascript' src="http://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
-    <script language='javascript' src="game.js"></script>
-
-    <script language='javascript'>
-        $(document).ready(function() {
-            start_game();
-        });
-    </script>
+<body>
+    <div id="main-body" class="game-board ui-mobile-viewport ui-overlay-a">
+        <div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all game-start">
+            <div data-role="header" class="ui-header ui-bar-d"><h1>Start Game</h1></div>
+	        <div data-role="content" class="ui-content ui-body-c" style="padding-top: 0px; padding-bottom: 0px;">
+                <h1>14-15 Puzzle</h1>
+                <form>
+                <fieldset>
+                    <label for="borad-width">Width</label>
+                    <input type="text" name="borad-width" id="borad-width" value="4" class="text ui-widget-content ui-corner-all"/>
+                    <label for="borad-height">Height</label>
+                    <input type="text" name="borad-height" id="borad-height" value="4" class="text ui-widget-content ui-corner-all"/>
+                    <label for="borad-max">Pieces</label>
+                    <input type="text" name="borad-max" id="borad-max" value="15" class="text ui-widget-content ui-corner-all"/>
+                </fieldset>
+                </form>
+	        	<p>Inspired by Nena and powered by Viky</p>
+                <a data-role="button" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b" onclick="build_game()">
+                    <span class="ui-btn-inner"><span class="ui-btn-text">S T A R T</span></span>
+                </a>
+	        </div>
+        </div>
+    </div>
+    <div class="ui-corner-all game-timer"><span id="game-time"></span></div>
 </body>
 </html>

@@ -3,42 +3,6 @@ var BOARD_HEIGHT    = 4;
 var MAX_COUNT       = 15;
 var game            = null;
 
-function start_game()
-{
-    $('<div title="Game 14-15">'+
-    '  <form>'+
-    '  <fieldset>'+
-    '    <label for="borad-width">Width</label>'+
-    '    <input type="text" name="borad-width" id="borad-width" value="4" class="text ui-widget-content ui-corner-all"/><br>'+
-    '    <label for="borad-height">Height</label>'+
-    '    <input type="text" name="borad-height" id="borad-height" value="4" class="text ui-widget-content ui-corner-all"/><br>'+
-    '    <label for="borad-max">Pieces</label>'+
-    '    <input type="text" name="borad-max" id="borad-max" value="15" class="text ui-widget-content ui-corner-all"/><br>'+
-    '  </fieldset>'+
-    '  </form>'+
-    '  <p>Inspired by Nena and powered by Viky.</p>'+
-    '</div>')
-        .dialog({
-            autoOpen: true,
-            height: 'auto',
-            width: 'auto',
-            modal: true,
-            resizable: false,
-            buttons: {
-                "Start": function() {
-                    $(window).resize(function(e) {
-                            adjust_pieces();
-                    });
-                    build_game();
-                    $(this).dialog("close");
-                },
-            },
-            close: function() {
-                $(this).remove();
-            }
-        });
-}
-
 function build_game()
 {
     var width = parseInt($('#borad-width').val());
@@ -73,7 +37,9 @@ function build_game()
                      ? $('<div>')
                         .addClass('game-piece')
                         .addClass(count%2 == 0 ? 'game_piece_even' : 'game_piece_odd')
-                        .text(count)
+                        .append($('<div>')
+                            .addClass('centerText')
+                            .html(count))
                      : $('<div>')
                         .addClass('empty_piece')
                      )
@@ -90,14 +56,21 @@ function build_game()
             };
         }
     }
+    $('.centerText').each( function( index, item) {
+         var parent = $(item).parent();
+         var $this = $(item);
+         parent.css('position', 'absolute');
+         $this.css('position', 'absolute').css('top', Math.round((parent.height() - $this.outerHeight()) / 2) + 'px');
+    });
     randomize_board(100 + Math.floor(Math.random()*11));
 }
 
-var time = 0;
+var time = 61;
 function randomize_board(rand)
 {
     if(rand < 0) {
-        time = 0;
+        time = 61;
+        $('#game-time').parent().css('display', 'inline');
         game_timer();
         return;
     }
@@ -106,13 +79,14 @@ function randomize_board(rand)
                 , col : Math.floor(Math.random()*BOARD_WIDTH)});
     setTimeout(function() {
         randomize_board(rand-1);
-    }, 50);
+    }, 10);
 }
 
 function game_timer()
 {
     if(!check_game()) {
-        time++;
+        time--;
+        if(time < 0) time = 0;
         $('#game-time').text(time);
     }
 
