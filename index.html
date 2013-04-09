@@ -7,14 +7,7 @@
     <link rel="stylesheet" href="styles.css" type="text/css"/>
 </head>
 
-<body>
-    <div id="title-bar" class="game-bar">
-        <span id="game-time" class="game-timer"></span>
-        <input id="borad-width" type="text" value="4"/>
-        <input id="borad-height" type="text" value="4"/>
-        <input id="borad-max" type="text" value="15"/>
-        <input id="game-start" type="button" value="START"/>
-    </div>
+<body>   
     <div id="main-body" class="game-board"></div>
     <script language='javascript' src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script language='javascript' src="http://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
@@ -22,14 +15,7 @@
 
     <script language='javascript'>
         $(document).ready(function() {
-            $(window)
-                .resize(function(e) {
-                    adjust_pieces();
-                });
-
-            $('#game-start').click(function(e) {
-                build_game();
-            });
+            start_game();
         });
     </script>
 </body>

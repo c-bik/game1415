@@ -3,6 +3,41 @@ var BOARD_HEIGHT    = 4;
 var MAX_COUNT       = 15;
 var game            = null;
 
+function start_game()
+{
+    $('<div title="Game 14-15">'+
+    '  <form>'+
+    '  <fieldset>'+
+    '    <label for="borad-width">Width</label>'+
+    '    <input type="text" name="borad-width" id="borad-width" value="4" class="text ui-widget-content ui-corner-all" />'+
+    '    <label for="borad-height">Height</label>'+
+    '    <input type="text" name="borad-height" id="borad-height" value="4" class="text ui-widget-content ui-corner-all" />'+
+    '    <label for="borad-max">Pieces</label>'+
+    '    <input type="text" name="borad-max" id="borad-max" value="15" class="text ui-widget-content ui-corner-all" />'+
+    '  </fieldset>'+
+    '  </form>'+
+    '  <p>Inspired by Nena and powered by Viky.</p>'+
+    '</div>')
+        .dialog({
+            autoOpen: true,
+            height: 410,
+            width: 330,
+            modal: true,
+            buttons: {
+                "Start": function() {
+                    $(window).resize(function(e) {
+                            adjust_pieces();
+                    });
+                    build_game();
+                    $(this).dialog("close");
+                },
+            },
+            close: function() {
+                $(this).remove();
+            }
+        });
+}
+
 function build_game()
 {
     var width = parseInt($('#borad-width').val());
