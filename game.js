@@ -91,7 +91,7 @@ var moves;
 function randomize_board(rand)
 {
     if(rand < 0) {
-        time = 61;
+        time = 76;
         moves = 0;
         $('#game-time').parent().css('display', 'inline');
         game_timer();
