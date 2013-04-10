@@ -3,19 +3,37 @@ var BOARD_HEIGHT    = 4;
 var MAX_COUNT       = 15;
 var game            = null;
 
+function game_over(timeTxt) {    
+    $('<div class="ui-dialog-contain ui-overlay-shadow ui-corner-all game-start">'+
+      '    <div data-role="header" class="ui-header ui-bar-d" style="padding-top: 0px; padding-bottom: 0px;"><h1>Game over</h1></div>'+
+	  '    <div data-role="content" class="ui-content ui-body-c">'+
+	  '    	<p>'+timeTxt+'</p>'+
+      '     <a href="#" data-role="button" data-rel="back" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b" onclick="build_game()">'+
+      '         <span class="ui-btn-inner"><span class="ui-btn-text">Play Again</span></span>'+
+      '     </a>'+
+	  '    </div>'+
+      '</div>')
+        .appendTo(document.body)
+        .popup({
+            afteropen: function( event, ui ) {
+                           $('.game-piece').remove();
+                           $('.empty_piece').remove();
+                           $('#game-time').parent().css('display', 'none');
+                       }
+        })
+        .popup('open');
+}
+
 function build_game()
 {
     var width = parseInt($('#borad-width').val());
     if (width !== NaN && width > 0) BOARD_WIDTH = width;
-    else return;
 
     var height = parseInt($('#borad-height').val());
     if (height !== NaN && height > 0) BOARD_HEIGHT = height;
-    else return;
 
     var max_count = parseInt($('#borad-max').val());
     if (max_count !== NaN && max_count <= width * height) MAX_COUNT = max_count;
-    else return;
 
     console.log('board layout '+BOARD_WIDTH+'x'+BOARD_HEIGHT+','+MAX_COUNT);
 
@@ -31,26 +49,29 @@ function build_game()
         for(var j=0; j < BOARD_HEIGHT; ++j) {
             ++count;
             count = (count <= MAX_COUNT ? count : -1);
+            var pH = piece_height - 2;
+            var padTop = (pH - 40) / 2;
+            pH -= padTop;
             game[i][j] = {
                 val: count,
                 dom: (count > 0
                      ? $('<div>')
                         .addClass('game-piece')
                         .addClass(count%2 == 0 ? 'game_piece_even' : 'game_piece_odd')
-                        .append($('<div>')
-                            .addClass('centerText')
-                            .html(count))
+                        .html(count)
                      : $('<div>')
                         .addClass('empty_piece')
                      )
                      .click(function(e) {
                          var pos = $(this).data('index');
+                         moves++;
                          move_pieces(pos);
                      })
+                     .css('padding-top', padTop)
                      .css('top', piece_height * i + i*1 + 1)
                      .css('left', piece_width * j + j*1 + 1)
                      .width(piece_width - 2)
-                     .height(piece_height - 2)
+                     .height(pH)
                      .data('index', {row: i, col: j})
                      .appendTo($('#main-body'))
             };
@@ -65,11 +86,13 @@ function build_game()
     randomize_board(100 + Math.floor(Math.random()*11));
 }
 
-var time = 61;
+var time;
+var moves;
 function randomize_board(rand)
 {
     if(rand < 0) {
         time = 61;
+        moves = 0;
         $('#game-time').parent().css('display', 'inline');
         game_timer();
         return;
@@ -86,11 +109,24 @@ function game_timer()
 {
     if(!check_game()) {
         time--;
-        if(time < 0) time = 0;
-        $('#game-time').text(time);
+        if(time < 0) {
+            game_over('Oops timeout! Better luck next time...');
+            time = 0;
+        } else {
+            $('#game-time').text('Time '+time+', Moves '+moves);
+            if (time % 2 == 0)
+                $('.game-timer')
+                    .css('background-color', 'rgba(0, 255, 255, 0.7)')
+                    .css('color', 'black');
+            else
+                $('.game-timer')
+                    .css('background-color', 'rgba(255, 0, 255, 0.7)')
+                    .css('color', 'white');
+            setTimeout(game_timer, 1000);
+        }
+    } else {
+        game_over('Congradulations! You finished in '+(61 - time)+' seconds with '+moves+' moves');
     }
-
-    setTimeout(game_timer, 1000);
 }
 
 function check_game()
