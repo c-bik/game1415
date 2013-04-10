@@ -27,12 +27,12 @@
 
 .game_piece_odd {
     background: blue;
-    color: white;
+    color: yellow;
 }
 
 .game_piece_even {
     background: yellow;
-    color: black;
+    color: blue;
 }
 
 .game-piece {
