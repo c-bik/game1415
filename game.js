@@ -46,8 +46,8 @@ function build_game()
     $('#main-body').html('');
 
     var count = 0;
-    var piece_width = $('#main-body').width() / BOARD_WIDTH - 2;
-    var piece_height = $('#main-body').height() / BOARD_HEIGHT - 2;
+    var piece_width = $('#main-body').width() / BOARD_WIDTH - 13;
+    var piece_height = $('#main-body').height() / BOARD_HEIGHT - 13;
     console.log('piece layout '+piece_width+'x'+piece_height);
     for(var i=0; i < BOARD_WIDTH; ++i) {
         game[i] = new Array();
@@ -71,8 +71,8 @@ function build_game()
                          move_pieces(pos)
                      })
                      .append(txt)
-                     .css('top', piece_height * i + i*1 + 3)
-                     .css('left', piece_width * j + j*1 + 3)
+                     .css('top', piece_height * i + i*12 + 5)
+                     .css('left', piece_width * j + j*12 + 5)
                      .width(piece_width - 4)
                      .height(piece_height - 4)
                      .data('index', {row: i, col: j})
@@ -221,7 +221,8 @@ function render()
             gcd = gc.dom;
             gc.txt.text(gc.val > 0 ? gc.val : '');
             if(gc.val < 0) {
-                gcd.removeClass('game-piece')
+                gcd.removeClass('game_piece_odd')
+                   .removeClass('game_piece_even')
                    .addClass('empty_piece');
                 empty_cell_row = i;
                 empty_cell_clm = j;
@@ -240,18 +241,4 @@ function render()
         }
     }
     console.timeEnd('render');
-}
-
-function adjust_pieces() {
-    var piece_width = $('#main-body').width() / BOARD_WIDTH - 1;
-    var piece_height = $('#main-body').height() / BOARD_HEIGHT - 1;
-    for(var i=0; i < game.length; ++i) {
-        for(var j=0; j < game[i].length; ++j) {
-            game[i][j].dom
-                .css('top', piece_height * i + i*1 + 1)
-                .css('left', piece_width * j + j*1 + 1)
-                .width(piece_width - 2)
-                .height(piece_height - 2);
-        }
-    }
 }
