@@ -68,10 +68,7 @@ function build_game()
                      .click(function(e) {
                          var pos = $(this).data('index');
                          moves++;
-                         alert('before move');
-                         var start = (new Date()).getTime();
                          move_pieces(pos)
-                         alert('after move ' + ((new Date()).getTime() - start));
                      })
                      .append(txt)
                      .css('top', piece_height * i + i*1 + 1)
@@ -110,7 +107,7 @@ function randomize_board(rand)
                 , col : Math.floor(Math.random()*BOARD_WIDTH)});
     setTimeout(function() {
         randomize_board(rand-1);
-    }, 10);
+    }, 1);
 }
 
 function game_timer()
@@ -152,24 +149,28 @@ function check_game()
 
 function move_pieces(pos)
 {
+    var start = (new Date()).getTime();
+
     // horizontal move
-    if (empty_cell_row == pos.row) {
-        if(empty_cell_clm < pos.col)
+    if (empty_cell_row == pos.row) {        
+        var gr = game[pos.row];
+        if(empty_cell_clm < pos.col) {
             for(var i=empty_cell_clm; i < pos.col; ++i) {
-                var tmp = game[pos.row][i].val;
-                game[pos.row][i].val = game[pos.row][i+1].val;
-                game[pos.row][i+1].val = tmp;
+                var tmp = gr[i].val;
+                gr[i].val = gr[i+1].val;
+                gr[i+1].val = tmp;
             }
-        else
+        } else {
             for(var i=empty_cell_clm; i > pos.col; --i) {
-                var tmp = game[pos.row][i].val;
-                game[pos.row][i].val = game[pos.row][i-1].val;
-                game[pos.row][i-1].val = tmp;
+                var tmp = gr[i].val;
+                gr[i].val = gr[i-1].val;
+                gr[i-1].val = tmp;
             }
+        }
         render();
     }
 
-    // virtical move
+    // vertical move
     if (empty_cell_clm == pos.col) {
         if(empty_cell_row < pos.row)
             for(var i=empty_cell_row; i < pos.row; ++i) {
@@ -185,6 +186,8 @@ function move_pieces(pos)
             }
         render();
     }
+
+    console.log('moved in ' + ((new Date()).getTime() - start));
 }
 
 function print_game() {
@@ -199,26 +202,30 @@ function print_game() {
 }
 
 function render() {
+    var grs = null;
+    var gc = null;
     for(var i=0; i < game.length; ++i) {
+        grs = game[i];
         for(var j=0; j < game[i].length; ++j) {
-            game[i][j].txt.text(game[i][j].val > 0 ? game[i][j].val : '');
-            if(game[i][j].val < 0) {
-                game[i][j].dom
+            gc = grs[j];
+            gc.txt.text(gc.val > 0 ? gc.val : '');
+            if(gc.val < 0) {
+                gc.dom
                     .removeClass('game-piece')
                     .addClass('empty_piece');
                 empty_cell_row = i;
                 empty_cell_clm = j;
             }
             else {
-                game[i][j].dom
+                gc.dom
                     .removeClass('empty_piece')
                     .addClass('game-piece');
-                if(game[i][j].val % 2 == 0)
-                    game[i][j].dom
+                if(gc.val % 2 == 0)
+                    gc.dom
                         .removeClass('game_piece_odd')
                         .addClass('game_piece_even');
                 else
-                    game[i][j].dom
+                    gc.dom
                         .removeClass('game_piece_even')
                         .addClass('game_piece_odd');
             }
