@@ -2,6 +2,7 @@ var BOARD_WIDTH     = 4;
 var BOARD_HEIGHT    = 4;
 var MAX_COUNT       = 15;
 var game            = null;
+var MAX_TIME        = 76;
 
 var time;
 var moves;
@@ -90,13 +91,13 @@ function build_game()
          parent.css('position', 'absolute');
          $this.css('position', 'absolute').css('top', Math.round((parent.height() - $this.outerHeight()) / 2) + 'px');
     });
-    randomize_board(100 + Math.floor(Math.random()*11));
+    randomize_board(1000 + Math.floor(Math.random()*11));
 }
 
 function randomize_board(rand)
 {
     if(rand < 0) {
-        time = 76;
+        time = MAX_TIME;
         moves = 0;
         $('#game-time').parent().css('display', 'inline');
         game_timer();
@@ -105,9 +106,8 @@ function randomize_board(rand)
 
     move_pieces({ row : Math.floor(Math.random()*BOARD_HEIGHT)
                 , col : Math.floor(Math.random()*BOARD_WIDTH)});
-    setTimeout(function() {
-        randomize_board(rand-1);
-    }, 1);
+
+    randomize_board(rand-1);
 }
 
 function game_timer()
@@ -130,7 +130,7 @@ function game_timer()
             setTimeout(game_timer, 1000);
         }
     } else {
-        game_over('Congradulations! You finished in '+(61 - time)+' seconds with '+moves+' moves');
+        game_over('Congradulations! You finished in '+(MAX_TIME - time)+' seconds with '+moves+' moves');
     }
 }
 
