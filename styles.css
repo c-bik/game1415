@@ -26,28 +26,39 @@
 }
 
 .game_piece_odd {
-    background: blue;
-    color: yellow;
+    color: #5F5F00;
+    text-shadow: 0px 2px 2px #FFFFFF;
+    background-color: #FFFF5F;
 }
 
 .game_piece_even {
-    background: yellow;
-    color: blue;
+    color: #1F1FAF;
+    text-shadow: 0px 2px 2px #AFAFFF;
+    background-color: #6F6FFF;
 }
 
 .game-piece {
 	padding: 0;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
     position: absolute;
-    border:1px solid black;    
     text-align:center;
-    display:block;
     vertical-align:middle;
     font-family: Helvetica,Arial,sans-serif;
     font-size:40px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    display:table;
+    box-shadow:
+      1px 1px 5px 0 #000000,
+      -1px -1px 5px 0 #000000;    
+}
+
+.game-piece p {
+  display: table-cell; 
+  vertical-align: middle; 
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .empty_piece {

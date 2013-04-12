@@ -49,16 +49,15 @@ function build_game()
         for(var j=0; j < BOARD_HEIGHT; ++j) {
             ++count;
             count = (count <= MAX_COUNT ? count : -1);
-            var pH = piece_height - 2;
-            var padTop = (pH - 40) / 2;
-            pH -= padTop;
+            var txt = $('<p>').text(count);
             game[i][j] = {
                 val: count,
+                txt: txt,
                 dom: (count > 0
                      ? $('<div>')
                         .addClass('game-piece')
                         .addClass(count%2 == 0 ? 'game_piece_even' : 'game_piece_odd')
-                        .html(count)
+                        .append(txt)
                      : $('<div>')
                         .addClass('empty_piece')
                      )
@@ -67,11 +66,10 @@ function build_game()
                          moves++;
                          move_pieces(pos);
                      })
-                     .css('padding-top', padTop)
                      .css('top', piece_height * i + i*1 + 1)
                      .css('left', piece_width * j + j*1 + 1)
                      .width(piece_width - 2)
-                     .height(pH)
+                     .height(piece_height - 2)
                      .data('index', {row: i, col: j})
                      .appendTo($('#main-body'))
             };
@@ -212,7 +210,7 @@ function print_game() {
 function render() {
     for(var i=0; i < game.length; ++i) {
         for(var j=0; j < game[i].length; ++j) {
-            game[i][j].dom.text(game[i][j].val > 0 ? game[i][j].val : '');
+            game[i][j].txt.text(game[i][j].val > 0 ? game[i][j].val : '');
             if(game[i][j].val < 0)
                 game[i][j].dom
                     .removeClass('game-piece')
