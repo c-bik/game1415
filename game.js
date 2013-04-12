@@ -3,6 +3,11 @@ var BOARD_HEIGHT    = 4;
 var MAX_COUNT       = 15;
 var game            = null;
 
+var time;
+var moves;
+var empty_cell_row = -1;
+var empty_cell_clm = -1;
+
 function game_over(timeTxt) {    
     $('<div class="ui-dialog-contain ui-overlay-shadow ui-corner-all game-start">'+
       '    <div data-role="header" class="ui-header ui-bar-d" style="padding-top: 0px; padding-bottom: 0px;"><h1>Game over</h1></div>'+
@@ -76,6 +81,10 @@ function build_game()
                      .data('index', {row: i, col: j})
                      .appendTo($('#main-body'))
             };
+            if(count < 0) {
+                empty_cell_row = i;
+                empty_cell_clm = j;
+            }
         }
     }
     $('.centerText').each( function( index, item) {
@@ -87,8 +96,6 @@ function build_game()
     randomize_board(100 + Math.floor(Math.random()*11));
 }
 
-var time;
-var moves;
 function randomize_board(rand)
 {
     if(rand < 0) {
@@ -145,32 +152,16 @@ function check_game()
 
 function move_pieces(pos)
 {
-    var moveToVirt = -1;
-    var moveToHorz = -1;
-    for(var i=0; i < game[pos.row].length; ++i)
-        if(game[pos.row][i].val < 0) {
-                moveToVirt = i;
-                break;
-        }
-    for(var i=0; i < BOARD_HEIGHT; ++i)
-        if(game[i][pos.col].val < 0) {
-                moveToHorz = i;
-                break;
-        }
-    
-    if(moveToVirt > 0 && moveToHorz > 0)
-        return;
-
-    // virtical move
-    if (moveToVirt >= 0) {
-        if(moveToVirt < pos.col)
-            for(var i=moveToVirt; i < pos.col; ++i) {
+    // horizontal move
+    if (empty_cell_row == pos.row) {
+        if(empty_cell_clm < pos.col)
+            for(var i=empty_cell_clm; i < pos.col; ++i) {
                 var tmp = game[pos.row][i].val;
                 game[pos.row][i].val = game[pos.row][i+1].val;
                 game[pos.row][i+1].val = tmp;
             }
         else
-            for(var i=moveToVirt; i > pos.col; --i) {
+            for(var i=empty_cell_clm; i > pos.col; --i) {
                 var tmp = game[pos.row][i].val;
                 game[pos.row][i].val = game[pos.row][i-1].val;
                 game[pos.row][i-1].val = tmp;
@@ -178,16 +169,16 @@ function move_pieces(pos)
         render();
     }
 
-    // horizontal move
-    if (moveToHorz >= 0) {
-        if(moveToHorz < pos.row)
-            for(var i=moveToHorz; i < pos.row; ++i) {
+    // virtical move
+    if (empty_cell_clm == pos.col) {
+        if(empty_cell_row < pos.row)
+            for(var i=empty_cell_row; i < pos.row; ++i) {
                 var tmp = game[i][pos.col].val;
                 game[i][pos.col].val = game[i+1][pos.col].val;
                 game[i+1][pos.col].val = tmp;
             }
         else
-            for(var i=moveToHorz; i > pos.row; --i) {
+            for(var i=empty_cell_row; i > pos.row; --i) {
                 var tmp = game[i][pos.col].val;
                 game[i][pos.col].val = game[i-1][pos.col].val;
                 game[i-1][pos.col].val = tmp;
@@ -211,10 +202,13 @@ function render() {
     for(var i=0; i < game.length; ++i) {
         for(var j=0; j < game[i].length; ++j) {
             game[i][j].txt.text(game[i][j].val > 0 ? game[i][j].val : '');
-            if(game[i][j].val < 0)
+            if(game[i][j].val < 0) {
                 game[i][j].dom
                     .removeClass('game-piece')
                     .addClass('empty_piece');
+                empty_cell_row = i;
+                empty_cell_clm = j;
+            }
             else {
                 game[i][j].dom
                     .removeClass('empty_piece')
