@@ -92,7 +92,7 @@ function randomize_board(rand)
         time = 76;
         moves = 0;
         $('#game-time').parent().css('display', 'inline');
-        game_timer();
+        //game_timer();
         return;
     }
 
