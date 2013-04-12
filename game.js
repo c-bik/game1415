@@ -63,7 +63,10 @@ function build_game()
                      .click(function(e) {
                          var pos = $(this).data('index');
                          moves++;
-                         move_pieces(pos);
+                         alert('before move');
+                         var start = (new Date()).getTime();
+                         move_pieces(pos)
+                         alert('after move ' + ((new Date()).getTime() - start));
                      })
                      .append(txt)
                      .css('top', piece_height * i + i*1 + 1)
@@ -92,7 +95,7 @@ function randomize_board(rand)
         time = 76;
         moves = 0;
         $('#game-time').parent().css('display', 'inline');
-        //game_timer();
+        game_timer();
         return;
     }
 
