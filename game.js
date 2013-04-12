@@ -91,7 +91,7 @@ function build_game()
          parent.css('position', 'absolute');
          $this.css('position', 'absolute').css('top', Math.round((parent.height() - $this.outerHeight()) / 2) + 'px');
     });
-    randomize_board(1000 + Math.floor(Math.random()*11));
+    randomize_board(200 + Math.floor(Math.random()*11));
 }
 
 function randomize_board(rand)
