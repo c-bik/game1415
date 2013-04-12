@@ -49,7 +49,7 @@ function build_game()
         for(var j=0; j < BOARD_HEIGHT; ++j) {
             ++count;
             count = (count <= MAX_COUNT ? count : -1);
-            var txt = $('<p>').text(count);
+            var txt = $('<p>').text(count > 0 ? count : '');
             game[i][j] = {
                 val: count,
                 txt: txt,
@@ -57,7 +57,6 @@ function build_game()
                      ? $('<div>')
                         .addClass('game-piece')
                         .addClass(count%2 == 0 ? 'game_piece_even' : 'game_piece_odd')
-                        .append(txt)
                      : $('<div>')
                         .addClass('empty_piece')
                      )
@@ -66,6 +65,7 @@ function build_game()
                          moves++;
                          move_pieces(pos);
                      })
+                     .append(txt)
                      .css('top', piece_height * i + i*1 + 1)
                      .css('left', piece_width * j + j*1 + 1)
                      .width(piece_width - 2)
@@ -158,8 +158,6 @@ function move_pieces(pos)
     if(moveToVirt > 0 && moveToHorz > 0)
         return;
 
-    print_game();
-
     // virtical move
     if (moveToVirt >= 0) {
         if(moveToVirt < pos.col)
@@ -174,6 +172,7 @@ function move_pieces(pos)
                 game[pos.row][i].val = game[pos.row][i-1].val;
                 game[pos.row][i-1].val = tmp;
             }
+        render();
     }
 
     // horizontal move
@@ -190,10 +189,8 @@ function move_pieces(pos)
                 game[i][pos.col].val = game[i-1][pos.col].val;
                 game[i-1][pos.col].val = tmp;
             }
+        render();
     }
-
-    print_game();
-    render();
 }
 
 function print_game() {
