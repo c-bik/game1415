@@ -149,7 +149,7 @@ function check_game()
 
 function move_pieces(pos)
 {
-    var start = (new Date()).getTime();
+    //var start = (new Date()).getTime();
 
     // horizontal move
     if (empty_cell_row == pos.row) {        
@@ -187,7 +187,7 @@ function move_pieces(pos)
         render();
     }
 
-    console.log('moved in ' + ((new Date()).getTime() - start));
+    // console.log('moved in ' + ((new Date()).getTime() - start));
 }
 
 function print_game() {
@@ -204,30 +204,29 @@ function print_game() {
 function render() {
     var grs = null;
     var gc = null;
+    var gcd = null;
     for(var i=0; i < game.length; ++i) {
         grs = game[i];
         for(var j=0; j < game[i].length; ++j) {
             gc = grs[j];
+            gcd = gc.dom;
             gc.txt.text(gc.val > 0 ? gc.val : '');
             if(gc.val < 0) {
-                gc.dom
-                    .removeClass('game-piece')
-                    .addClass('empty_piece');
+                gcd.removeClass('game-piece')
+                   .addClass('empty_piece');
                 empty_cell_row = i;
                 empty_cell_clm = j;
             }
             else {
-                gc.dom
-                    .removeClass('empty_piece')
-                    .addClass('game-piece');
-                if(gc.val % 2 == 0)
-                    gc.dom
-                        .removeClass('game_piece_odd')
-                        .addClass('game_piece_even');
-                else
-                    gc.dom
-                        .removeClass('game_piece_even')
-                        .addClass('game_piece_odd');
+                gcd.removeClass('empty_piece')
+                   .addClass('game-piece');
+                if(gc.val % 2 == 0) {
+                    gcd.removeClass('game_piece_odd')
+                       .addClass('game_piece_even');
+                } else {
+                    gcd.removeClass('game_piece_even')
+                       .addClass('game_piece_odd');
+                }
             }
         }
     }
