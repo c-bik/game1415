@@ -46,8 +46,8 @@ function build_game()
     $('#main-body').html('');
 
     var count = 0;
-    var piece_width = $('#main-body').width() / BOARD_WIDTH - 1;
-    var piece_height = $('#main-body').height() / BOARD_HEIGHT - 1;
+    var piece_width = $('#main-body').width() / BOARD_WIDTH - 2;
+    var piece_height = $('#main-body').height() / BOARD_HEIGHT - 2;
     console.log('piece layout '+piece_width+'x'+piece_height);
     for(var i=0; i < BOARD_WIDTH; ++i) {
         game[i] = new Array();
@@ -71,10 +71,10 @@ function build_game()
                          move_pieces(pos)
                      })
                      .append(txt)
-                     .css('top', piece_height * i + i*1 + 1)
-                     .css('left', piece_width * j + j*1 + 1)
-                     .width(piece_width - 2)
-                     .height(piece_height - 2)
+                     .css('top', piece_height * i + i*1 + 3)
+                     .css('left', piece_width * j + j*1 + 3)
+                     .width(piece_width - 4)
+                     .height(piece_height - 4)
                      .data('index', {row: i, col: j})
                      .appendTo($('#main-body'))
             };

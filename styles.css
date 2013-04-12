@@ -28,16 +28,26 @@
 .game_piece_odd {
     color: #5F5F00;
     text-shadow: 0px 2px 2px #FFFFFF;
-    background-color: #FFFF5F;
+    background-color: #E68A2E;
+    border-top-color: #A8825B;
+    border-right-color: #A8825B;
+    border-left-color: #F0B982;
+    border-bottom-color: #F0B982;
 }
 
 .game_piece_even {
     color: #1F1FAF;
     text-shadow: 0px 2px 2px #AFAFFF;
-    background-color: #6F6FFF;
+    background-color: #5959CC;
+    border-top-color: #383880;
+    border-right-color: #383880;
+    border-left-color: #7D7DFF;
+    border-bottom-color: #7D7DFF;
 }
 
 .game-piece {
+    border-style:solid;
+    border-width:2px;
 	padding: 0;
     position: absolute;
     text-align:center;
@@ -50,7 +60,7 @@
     display:table;
     box-shadow:
       1px 1px 5px 0 #000000,
-      -1px -1px 5px 0 #000000;    
+      -1px -1px 5px 0 #000000;
 }
 
 .game-piece p {
