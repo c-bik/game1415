@@ -149,25 +149,27 @@ function check_game()
 
 function move_pieces(pos)
 {
-    //var start = (new Date()).getTime();
+    console.time('move_pieces');
 
     // horizontal move
     if (empty_cell_row == pos.row) {        
         var gr = game[pos.row];
-        if(empty_cell_clm < pos.col) {
+        if(empty_cell_clm < pos.col)
             for(var i=empty_cell_clm; i < pos.col; ++i) {
                 var tmp = gr[i].val;
                 gr[i].val = gr[i+1].val;
                 gr[i+1].val = tmp;
             }
-        } else {
+        else if(empty_cell_clm > pos.col)
             for(var i=empty_cell_clm; i > pos.col; --i) {
                 var tmp = gr[i].val;
                 gr[i].val = gr[i-1].val;
                 gr[i-1].val = tmp;
             }
+        if (empty_cell_clm != pos.col) {
+            console.log('horizontal '+empty_cell_clm+'->'+pos.col);
+            render();
         }
-        render();
     }
 
     // vertical move
@@ -178,16 +180,19 @@ function move_pieces(pos)
                 game[i][pos.col].val = game[i+1][pos.col].val;
                 game[i+1][pos.col].val = tmp;
             }
-        else
+        else if(empty_cell_row > pos.row)
             for(var i=empty_cell_row; i > pos.row; --i) {
                 var tmp = game[i][pos.col].val;
                 game[i][pos.col].val = game[i-1][pos.col].val;
                 game[i-1][pos.col].val = tmp;
             }
-        render();
+        if (empty_cell_row != pos.row) {
+            console.log('vertical '+empty_cell_row+'->'+pos.row);
+            render();
+        }
     }
 
-    // console.log('moved in ' + ((new Date()).getTime() - start));
+    console.timeEnd('move_pieces');
 }
 
 function print_game() {
@@ -201,10 +206,14 @@ function print_game() {
     }
 }
 
-function render() {
+function render()
+{
     var grs = null;
     var gc = null;
     var gcd = null;
+
+    console.time('render');
+
     for(var i=0; i < game.length; ++i) {
         grs = game[i];
         for(var j=0; j < game[i].length; ++j) {
@@ -230,6 +239,7 @@ function render() {
             }
         }
     }
+    console.timeEnd('render');
 }
 
 function adjust_pieces() {
